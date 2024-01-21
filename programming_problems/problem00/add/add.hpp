@@ -4,7 +4,7 @@
 #include "abstract_operator.hpp"
 
 template<typename T> class Add : public AbstractOperator<T>{
-public:
+  public:
 
   Add();
   
@@ -12,7 +12,7 @@ public:
 
   T call(T arg1, T arg2) const;
 
-private:
+  private:
 
 };
 
