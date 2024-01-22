@@ -12,11 +12,12 @@ class Bitset {
     Bitset();
 
     /** @param size The length of the new bitset.
+     *  @pre size > 0, otherwise bitset is invalid.
      *  @post Bitset of size `size`, filled with zeros, will be created. */
     Bitset(intmax_t size);
 
     /** @param value The string that will be used to create a new bitset.
-     *  @pre The string `value` only contains 0 and 1.
+     *  @pre The string `value` only contains 0 and 1. String length greater than 0.
      *  @post A bitset with the same size as the string `value`, filled with 0's and 1's according to the string, will be created. */
     Bitset(const std::string &value);
 
@@ -62,6 +63,8 @@ class Bitset {
     int8_t *arr;
 
     intmax_t bSize;
+
+    bool valid;
 };
 
 #endif
