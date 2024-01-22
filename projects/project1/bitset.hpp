@@ -61,7 +61,7 @@ class Bitset {
    private:
     int8_t *arr;
 
-    intmax_t size;
+    intmax_t bSize;
 };
 
 #endif
