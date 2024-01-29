@@ -56,7 +56,7 @@ Bitset::Bitset(const std::string &value) {
 Bitset::~Bitset() {
     // don't want to delete if user gave invalid size
     // since arr isn't initialized with this condition
-    if (good()) {
+    if (bSize > 0) {
         delete[] arr;
     }
 }
