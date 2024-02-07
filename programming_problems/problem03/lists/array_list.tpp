@@ -7,11 +7,11 @@ template <typename T>
 ArrayList<T>::~ArrayList() {}
 
 template <typename T>
-ArrayList<T>::ArrayList(const ArrayList& rhs){}
+ArrayList<T>::ArrayList(const ArrayList& rhs) {}
 
 template <typename T>
-ArrayList<T>& ArrayList<T>::operator=(ArrayList rhs){
-  return *this;
+ArrayList<T>& ArrayList<T>::operator=(ArrayList rhs) {
+    return *this;
 }
 
 template <typename T>
@@ -19,22 +19,22 @@ void ArrayList<T>::swap(ArrayList& rhs) {}
 
 template <typename T>
 bool ArrayList<T>::isEmpty() const noexcept {
-  return false;
+    return false;
 }
 
 template <typename T>
 std::size_t ArrayList<T>::getLength() const noexcept {
-  return 0;
+    return 0;
 }
 
 template <typename T>
-bool ArrayList<T>::insert(std::size_t position, const T& item){
-  return false;
+bool ArrayList<T>::insert(std::size_t position, const T& item) {
+    return false;
 }
 
 template <typename T>
-bool ArrayList<T>::remove(std::size_t position){
-  return false;
+bool ArrayList<T>::remove(std::size_t position) {
+    return false;
 }
 
 template <typename T>
@@ -42,7 +42,7 @@ void ArrayList<T>::clear() {}
 
 template <typename T>
 T ArrayList<T>::getEntry(std::size_t position) const {
-  return T();
+    return T();
 }
 
 template <typename T>

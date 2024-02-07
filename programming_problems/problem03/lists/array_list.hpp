@@ -3,51 +3,47 @@
 
 #include "abstract_list.hpp"
 
-template<typename T>
-class ArrayList: public AbstractList<T>
-{
-public:
+template <typename T>
+class ArrayList : public AbstractList<T> {
+   public:
+    // default constructor
+    ArrayList();
 
-  // default constructor
-  ArrayList();
+    // destructor
+    ~ArrayList();
 
-  // destructor
-  ~ArrayList();
+    // copy constructor
+    ArrayList(const ArrayList& rhs);
 
-  // copy constructor
-  ArrayList(const ArrayList& rhs);
+    // copy assignment
+    ArrayList& operator=(ArrayList rhs);
 
-  // copy assignment
-  ArrayList& operator=(ArrayList rhs);
+    // swap
+    void swap(ArrayList& rhs);
 
-  // swap 
-  void swap(ArrayList& rhs);
-  
-  // determine if a list is empty
-  bool isEmpty() const noexcept;
+    // determine if a list is empty
+    bool isEmpty() const noexcept;
 
-  // return current length of the list
-  std::size_t getLength() const noexcept;
-  
-  // insert item at position in the list 
-  bool insert(std::size_t position, const T& item);
+    // return current length of the list
+    std::size_t getLength() const noexcept;
 
-  // remove item at position in the list 
-  bool remove(std::size_t position);
+    // insert item at position in the list
+    bool insert(std::size_t position, const T& item);
 
-  // remove all items from the list
-  void clear();
+    // remove item at position in the list
+    bool remove(std::size_t position);
 
-  // get a copy of the item at position 
-  T getEntry(std::size_t position) const;
+    // remove all items from the list
+    void clear();
 
-  // set the value of the item at position 
-  void setEntry(std::size_t position, const T& newValue);
+    // get a copy of the item at position
+    T getEntry(std::size_t position) const;
 
-private:
+    // set the value of the item at position
+    void setEntry(std::size_t position, const T& newValue);
 
-  // TODO
-  
+   private:
+    // TODO
 };
 
 #include "array_list.tpp"
