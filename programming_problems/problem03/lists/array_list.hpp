@@ -44,6 +44,9 @@ class ArrayList : public AbstractList<T> {
 
    private:
     // TODO
+    T* listContents;
+    int itemCount;
+    int listSize;
 };
 
 #include "array_list.tpp"
