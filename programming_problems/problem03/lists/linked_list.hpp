@@ -44,6 +44,9 @@ class LinkedList : public AbstractList<T> {
 
    private:
     // TODO
+    Node<T>* headPtr;
+    Node<T>* tailPtr;
+    int itemCount;
 };
 
 #include "linked_list.tpp"
