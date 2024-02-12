@@ -48,7 +48,7 @@ TEST_CASE("Test getLength function", "[LinkedList]") {
 
     list.remove(0);
 
-    REQUIRE(list.isEmpty() == 0);
+    REQUIRE(list.isEmpty());
 }
 
 TEST_CASE("Test insert function", "[LinkedList]") {
