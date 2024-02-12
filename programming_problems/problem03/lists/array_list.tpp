@@ -7,13 +7,14 @@
 
 template <typename T>
 ArrayList<T>::ArrayList() {
+    listContents = nullptr;
     itemCount = 0;
     listSize = 0;
 }
 
 template <typename T>
 ArrayList<T>::~ArrayList() {
-    delete[] listContents;
+    clear();
 }
 
 template <typename T>
@@ -110,7 +111,7 @@ bool ArrayList<T>::insert(std::size_t position, const T& item) {
     }
 
     // perform shifting to make room for insertion (to the right)
-    for (int i = itemCount - 1; i >= position; i--) {
+    for (int i = itemCount - 1; ((int)position <= i); i--) {
         listContents[i + 1] = listContents[i];
     }
 
@@ -123,22 +124,27 @@ bool ArrayList<T>::insert(std::size_t position, const T& item) {
 template <typename T>
 bool ArrayList<T>::remove(std::size_t position) {
     // check if postion is valid
-    if (position < 0 || position > listSize - 1) {
+    if (position < 0 || position > itemCount - 1) {
         return false;
     }
 
     // perform shifting to the left to fill in gap
-    for (int i = position; i > itemCount - 1; i++) {
+    int right, left;
+    for (int i = position; i < itemCount - 1; i++) {
+        left = listContents[i];
         listContents[i] = listContents[i + 1];
+        right = listContents[i];
     }
 
     // adjust itemcount to account for removal
     itemCount--;
-    return false;
+    return true;
 }
 
 template <typename T>
 void ArrayList<T>::clear() {
+    delete[] listContents;
+    listContents = nullptr;
     itemCount = 0;
 }
 

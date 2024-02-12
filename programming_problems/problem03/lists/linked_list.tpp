@@ -6,6 +6,7 @@ template <typename T>
 LinkedList<T>::LinkedList() {
     headPtr = nullptr;
     tailPtr = nullptr;
+    itemCount = 0;
 }
 
 template <typename T>
@@ -24,6 +25,7 @@ LinkedList<T>::LinkedList(const LinkedList<T>& x) : LinkedList<T>::LinkedList() 
 
         // insert at tail
         insert(itemCount, tempItem);
+        curNodePtr = curNodePtr->getNext();
     }
 }
 
@@ -148,6 +150,7 @@ void LinkedList<T>::clear() {
 
     headPtr = nullptr;
     tailPtr = nullptr;
+    itemCount = 0;
 }
 
 template <typename T>
