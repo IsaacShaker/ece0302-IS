@@ -22,11 +22,12 @@ int main(int argc, char **argv) {
     }
 
     string postfix = string(argv[1]);
-    string prefix;
+    string prefix = "";
 
     if (isPost(postfix)) {
         convert(postfix, prefix);
         cout << prefix.c_str() << endl;
+
     } else {
         cerr << "Error: input not in postfix format" << endl;
         return EXIT_FAILURE;

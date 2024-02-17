@@ -56,24 +56,25 @@ void convert(string &postfix, string &prefix) {
     for (int i = 0; i < postfix.size(); i++) {
         // check if character is an operator
         if (isoperator(postfix[i])) {
-            arith_operator = postfix[i];
+            arith_operator = string(1, postfix[i]);
             operand1 = post_to_pre.top();
             post_to_pre.pop();
             operand2 = post_to_pre.top();
             post_to_pre.pop();
 
-            post_to_pre.push(arith_operator + operand2 + operand1);
+            temp = arith_operator + operand2 + operand1;
+            post_to_pre.push(temp);
         } else {
             // convet the character to string to avoid errors
-            temp = postfix[i];
+            temp = string(1, postfix[i]);
             post_to_pre.push(temp);
         }
     }
 
     // concatonate all strings in the stack to make final prefix form
-    postfix = "";
+    prefix = "";
     while (post_to_pre.empty() == false) {
-        postfix += post_to_pre.top();
+        prefix += post_to_pre.top();
         post_to_pre.pop();
     }
 }
