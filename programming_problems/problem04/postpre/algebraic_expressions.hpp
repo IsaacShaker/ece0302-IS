@@ -27,4 +27,4 @@ bool isPost(std::string s);
 // Preconditions: postfix is a valid postfix expression
 void convert(std::string &postfix, std::string &prefix);
 
-#endif // _ALGEBRAICEXPRESSIONS_HPP_
+#endif  // _ALGEBRAICEXPRESSIONS_HPP_
