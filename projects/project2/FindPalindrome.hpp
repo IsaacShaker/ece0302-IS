@@ -7,10 +7,8 @@
 class FindPalindrome {
    private:
     // private stuff that you define and implement goes here...
-    vector<string> wordList;
-    vector<string> palindromeSentences;
-
-    // ...
+    std::vector<std::string> wordList;
+    std::vector<std::vector<std::string>> palindromeSentences;
 
     // private stuff that you are given or is specified in the project
     // description...
@@ -99,7 +97,7 @@ class FindPalindrome {
         palindrome is returned as a vector of strings, where the strings include
         all current strings added to the FindPalindrome instance.
     @return  A vector of vectors containing all palindromes. */
-    std::vector<std::vector<std::string> > toVector() const;
+    std::vector<std::vector<std::string>> toVector() const;
 };
 
 #endif
