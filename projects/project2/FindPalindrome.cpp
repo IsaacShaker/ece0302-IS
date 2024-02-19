@@ -221,8 +221,16 @@ bool FindPalindrome::add(const string& value) {
         return false;
     }
 
+    // don't allow empty strings
+    if (value == "") {
+        return false;
+    }
+
     // add word to list
     wordList.push_back(value);
+
+    // reset palindromes
+    palindromeSentences.clear();
 
     // before checking possible combinations, perform first check
     if (cutTest1(wordList)) {
@@ -238,6 +246,10 @@ bool FindPalindrome::add(const vector<string>& stringVector) {
     // word must only contain alphabetical characters and not already be in word list
     for (int i = 0; i < stringVector.size(); i++) {
         if (!onlyAlpha(stringVector[i]) || vectContains(wordList, stringVector[i])) {
+            return false;
+        }
+        // don't allow empty strings
+        if (stringVector[i] == "") {
             return false;
         }
     }
@@ -256,6 +268,9 @@ bool FindPalindrome::add(const vector<string>& stringVector) {
     for (int i = 0; i < stringVector.size(); i++) {
         wordList.push_back(stringVector[i]);
     }
+
+    // reset palindromes
+    palindromeSentences.clear();
 
     // before checking possible combinations, perform first check
     if (cutTest1(wordList)) {
