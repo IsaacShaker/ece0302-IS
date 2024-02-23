@@ -3,10 +3,10 @@
 
 #include "linked_list.hpp"
 
-template<typename T> LinkedList<T> sort(LinkedList<T> list)
-{
-	// your code should go here.
-	return list;
+template <typename T>
+LinkedList<T> sort(LinkedList<T> list) {
+    // your code should go here.
+    return list;
 }
 
 #endif
