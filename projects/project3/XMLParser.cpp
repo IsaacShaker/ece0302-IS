@@ -244,18 +244,35 @@ bool XMLParser::parseTokenizedInput() {
     // make the parse stack using the vector
     TokenStruct tempToken, tempStackToken;
 
+    // keep track of depth (how far nested are you) to determine the number of root elements
+    int depth = 0;
+    int numRoots = 0;
+
     for (int i = 0; i < tokenizedInputVector.size(); i++) {
         tempToken = tokenizedInputVector[i];
 
-        if (tempToken.tokenType == START_TAG || tempToken.tokenType == CONTENT) {
+        if (tempToken.tokenType != END_TAG) {
+            // determine if it is a root and addjust depth as needed
+            if (tempToken.tokenType == START_TAG) {
+                if (depth == 0) {
+                    numRoots++;
+                }
+                depth++;
+            }
+
+            // add token
             parseStack.push(tempToken);
 
-        } else if (tempToken.tokenType == END_TAG) {
+        } else {
+            bool matched = false;
+            // search for matching start tag
+            // if found, continue
+            // if not found, invalid XML
             while (parseStack.isEmpty() == false) {
                 tempStackToken = parseStack.peek();
 
                 if (tempStackToken.tokenType == START_TAG) {
-                    // if not valid
+                    // if not same tag name
                     if (tempStackToken.tokenString != tempToken.tokenString) {
                         // empty the bag
                         elementNameBag.clear();
@@ -265,19 +282,45 @@ bool XMLParser::parseTokenizedInput() {
                         return false;
                     }
 
-                    // satisfied condition
+                    // matched the end tag with the start tag
                     elementNameBag.add(tempStackToken.tokenString);
                     parseStack.pop();
+                    matched = true;
                     break;
-                }
 
-                parseStack.pop();
+                } else if (tempStackToken.tokenType == CONTENT || tempStackToken.tokenType == EMPTY_TAG) {
+                    parseStack.pop();
+
+                } else if (tempStackToken.tokenType == DECLARATION) {
+                    // declaraions should not be contained inside tags
+                    elementNameBag.clear();
+                    parseStack.clear();
+                    return false;
+                }
             }
+
+            if (matched == false) {
+                elementNameBag.clear();
+                parseStack.clear();
+                return false;
+            }
+
+            depth--;
         }
     }
 
-    // stack should be empty, otherwise content is existing outside of an elemenent
-    if (parseStack.isEmpty() == false) {
+    // remainder of stack should only be declartions, otherwise content is existing outside of an elemenent or tag not element was not closed
+    while (parseStack.isEmpty() == false) {
+        if (parseStack.peek().tokenType != DECLARATION) {
+            elementNameBag.clear();
+            parseStack.clear();
+            return false;
+        }
+        parseStack.pop();
+    }
+
+    // if more than one root return false
+    if (numRoots > 1) {
         elementNameBag.clear();
         parseStack.clear();
         return false;
