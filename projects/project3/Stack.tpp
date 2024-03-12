@@ -9,48 +9,87 @@
 #include "Node.hpp"
 #include "Stack.hpp"
 
-// TODO: Implement the constructor here
 template <class ItemType>
 Stack<ItemType>::Stack() {
+    headPtr = nullptr;
+    currentSize = 0;
 }  // end default constructor
 
-// TODO: Implement the destructor here
 template <class ItemType>
 Stack<ItemType>::~Stack() {
+    clear();
 }  // end destructor
 
-// TODO: Implement the isEmpty method here
 template <class ItemType>
 bool Stack<ItemType>::isEmpty() const {
-    return true;
+    if (currentSize == 0) {
+        return true;
+    }
+    return false;
 }  // end isEmpty
 
-// TODO: Implement the size method here
 template <class ItemType>
 int Stack<ItemType>::size() const {
-    return 0;
+    return currentSize;
 }  // end size
 
-// TODO: Implement the push method here
 template <class ItemType>
 bool Stack<ItemType>::push(const ItemType& newItem) {
+    // create a new node and set item
+    Node<ItemType>* newNode = nullptr;
+    try {
+        newNode = new Node<ItemType>;
+        newNode->setItem(newItem);
+    } catch (const std::bad_alloc& e) {
+        return false;
+    }
+
+    // insert node at head
+    newNode->setNext(headPtr);
+    headPtr = newNode;
+
+    // increase size of stack
+    currentSize++;
+
     return true;
 }  // end push
 
-// TODO: Implement the peek method here
 template <class ItemType>
 ItemType Stack<ItemType>::peek() const {
-    ItemType returnItem;
-    return returnItem;
+    if (headPtr == nullptr) {
+        // throw logic error if stack is empty
+        throw std::logic_error("trying to access an empty stack, peek requires the stack to not be empty");
+    }
+    return headPtr->getItem();
 }  // end peek
 
-// TODO: Implement the pop method here
 template <class ItemType>
 bool Stack<ItemType>::pop() {
-    return false;
+    // check if there is anything to pop
+    if (headPtr == nullptr) {
+        return false;
+    }
+
+    // delete head node
+    Node<ItemType>* currNode = headPtr;
+    headPtr = headPtr->getNext();
+    delete currNode;
+
+    // decrease size
+    currentSize--;
+
+    return true;
 }  // end pop
 
-// TODO: Implement the clear method here
 template <class ItemType>
 void Stack<ItemType>::clear() {
+    // delete all nodes
+    Node<ItemType>* currNode = headPtr;
+    while (currNode != nullptr) {
+        headPtr = headPtr->getNext();
+        delete currNode;
+        currNode = headPtr;
+    }
+
+    currentSize = 0;
 }  // end clear
