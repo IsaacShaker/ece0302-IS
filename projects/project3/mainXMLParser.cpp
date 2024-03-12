@@ -10,7 +10,7 @@ using namespace std;
 int main() {
     bool success;
     string inputString;
-    ifstream myfile("./xmlFile.txt");
+    ifstream myfile("../xmlFile.txt");
     XMLParser myParser;
     char c;
 
