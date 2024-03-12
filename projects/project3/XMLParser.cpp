@@ -225,6 +225,11 @@ bool XMLParser::tokenizeInputString(const std::string &inputString) {
         tokenizedInputVector.push_back(tempToken);
     }
 
+    // if nothing was added (input string was empty or just a bunch of whitespace)
+    if (tokenizedInputVector.empty()) {
+        return false;
+    }
+
     return true;
 }  // end
 
@@ -238,14 +243,48 @@ bool XMLParser::parseTokenizedInput() {
     // fills the element name bag
     // uses the parse stack to check validity
     // make the parse stack using the vector
+    TokenStruct tempToken, tempStackToken;
 
-    // if not valid
-    // empty the bag
-    elementNameBag.clear();
-    // empty the stack
-    parseStack.clear();
-    // keep the vector
-    return false;
+    for (int i = 0; i < tokenizedInputVector.size(); i++) {
+        tempToken = tokenizedInputVector[i];
+
+        if (tempToken.tokenType == START_TAG || tempToken.tokenType == CONTENT) {
+            parseStack.push(tempToken);
+
+        } else if (tempToken.tokenType == END_TAG) {
+            while (parseStack.isEmpty() == false) {
+                tempStackToken = parseStack.peek();
+
+                if (tempStackToken.tokenType == START_TAG) {
+                    // if not valid
+                    if (tempStackToken.tokenString != tempToken.tokenString) {
+                        // empty the bag
+                        elementNameBag.clear();
+                        // empty the stack
+                        parseStack.clear();
+
+                        return false;
+                    }
+
+                    // satisfied condition
+                    elementNameBag.add(tempStackToken.tokenString);
+                    parseStack.pop();
+                    break;
+                }
+
+                parseStack.pop();
+            }
+        }
+    }
+
+    // stack should be empty, otherwise content is existing outside of an elemenent
+    if (parseStack.isEmpty() == false) {
+        elementNameBag.clear();
+        parseStack.clear();
+        return false;
+    }
+
+    return true;
 }
 
 void XMLParser::clear() {
