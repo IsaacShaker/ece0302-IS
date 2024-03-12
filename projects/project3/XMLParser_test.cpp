@@ -188,6 +188,49 @@ TEST_CASE("Test XMLParser tokenizeInputString Handout-1", "[XMLParser]") {
     }
 }
 
+TEST_CASE("Test XMLParser tokenizeInputString invalid tag type", "[XMLParser]") {
+    INFO("Hint: tokenize multiple elements test of XMLParse");
+    // Create an instance of XMLParse
+    XMLParser myXMLParser;
+    string testString = "<test>stuff</test/>";
+    bool success;
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE_FALSE(success);
+    REQUIRE(myXMLParser.returnTokenizedInput().empty());
+}
+
+TEST_CASE("Test XMLParser tokenizeInputString invalid end tag", "[XMLParser]") {
+    INFO("Hint: tokenize multiple elements test of XMLParse");
+    // Create an instance of XMLParse
+    XMLParser myXMLParser;
+    string testString = "<test>stuff</test src=\"edgar.jpg\">";
+    bool success;
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE_FALSE(success);
+    REQUIRE(myXMLParser.returnTokenizedInput().empty());
+}
+
+TEST_CASE("Test XMLParser tokenizeInputString invalid names", "[XMLParser]") {
+    INFO("Hint: tokenize multiple elements test of XMLParse");
+    // Create an instance of XMLParse
+    XMLParser myXMLParser;
+    string testString = "<.test>stuff</test>";
+    bool success;
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE_FALSE(success);
+    REQUIRE(myXMLParser.returnTokenizedInput().empty());
+
+    testString = "<\ntest>stuff</test>";
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE_FALSE(success);
+    REQUIRE(myXMLParser.returnTokenizedInput().empty());
+
+    testString = "<3test>stuff</test>";
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE_FALSE(success);
+    REQUIRE(myXMLParser.returnTokenizedInput().empty());
+}
+
 TEST_CASE("Test XMLParser parseTokenizedInput Handout-0", "[XMLParser]") {
     INFO("Hint: tokenize single element test of XMLParse");
     // Create an instance of XMLParse
