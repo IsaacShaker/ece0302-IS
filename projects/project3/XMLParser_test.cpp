@@ -231,6 +231,38 @@ TEST_CASE("Test XMLParser tokenizeInputString invalid names", "[XMLParser]") {
     REQUIRE(myXMLParser.returnTokenizedInput().empty());
 }
 
+TEST_CASE("Test XMLParser tokenizeInputString with nested angle brackets ('<')", "[XMLParser]") {
+    INFO("Hint: tokenize multiple elements test of XMLParse");
+    // Create an instance of XMLParse
+    XMLParser myXMLParser;
+    string testString = "<test>>stuff</test>";
+    bool success;
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE_FALSE(success);
+    REQUIRE(myXMLParser.returnTokenizedInput().empty());
+
+    testString = "<test <stuff/> id=\"id\">stuff</test>";
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE_FALSE(success);
+    REQUIRE(myXMLParser.returnTokenizedInput().empty());
+}
+
+TEST_CASE("Test XMLParser tokenizeInputString with unfinished element", "[XMLParser]") {
+    INFO("Hint: tokenize multiple elements test of XMLParse");
+    // Create an instance of XMLParse
+    XMLParser myXMLParser;
+    string testString = "<test>stuff</test";
+    bool success;
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE_FALSE(success);
+    REQUIRE(myXMLParser.returnTokenizedInput().empty());
+
+    testString = "<test stuff</test>";
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE_FALSE(success);
+    REQUIRE(myXMLParser.returnTokenizedInput().empty());
+}
+
 TEST_CASE("Test XMLParser parseTokenizedInput Handout-0", "[XMLParser]") {
     INFO("Hint: tokenize single element test of XMLParse");
     // Create an instance of XMLParse
@@ -255,11 +287,88 @@ TEST_CASE("Test XMLParser parseTokenizedInput Handout-0", "[XMLParser]") {
     }
 }
 
+TEST_CASE("Test XMLParser parseTokenizedInput fail - content outside of element leading", "[XMLParser]") {
+    INFO("Hint: tokenize single element test of XMLParse");
+    // Create an instance of XMLParse
+    XMLParser myXMLParser;
+    string testString = "content ouside!<test myattr='abcdef'>stuff<this_is_empty_tag/></test>";
+    bool success;
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE(success);
+    std::vector<TokenStruct> result = {TokenStruct{StringTokenType::CONTENT, std::string("content ouside!")},
+                                       TokenStruct{StringTokenType::START_TAG, std::string("test")},
+                                       TokenStruct{StringTokenType::CONTENT, std::string("stuff")},
+                                       TokenStruct{StringTokenType::EMPTY_TAG, std::string("this_is_empty_tag")},
+                                       TokenStruct{StringTokenType::END_TAG, std::string("test")}};
+    std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
+    REQUIRE(result.size() == output.size());
+    output = myXMLParser.returnTokenizedInput();
+    REQUIRE(result.size() == output.size());
+    for (int i = 0; i < result.size(); i++) {
+        REQUIRE(result[i].tokenType == output[i].tokenType);
+        REQUIRE(result[i].tokenString.compare(output[i].tokenString) == 0);
+    }
+
+    success = myXMLParser.parseTokenizedInput();
+    REQUIRE_FALSE(success);
+}
+
+TEST_CASE("Test XMLParser parseTokenizedInput fail - content outside of element trailing", "[XMLParser]") {
+    INFO("Hint: tokenize single element test of XMLParse");
+    // Create an instance of XMLParse
+    XMLParser myXMLParser;
+    string testString = "<test myattr='abcdef'>stuff<this_is_empty_tag/></test> content ouside!";
+    bool success;
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE(success);
+    std::vector<TokenStruct> result = {TokenStruct{StringTokenType::START_TAG, std::string("test")},
+                                       TokenStruct{StringTokenType::CONTENT, std::string("stuff")},
+                                       TokenStruct{StringTokenType::EMPTY_TAG, std::string("this_is_empty_tag")},
+                                       TokenStruct{StringTokenType::END_TAG, std::string("test")},
+                                       TokenStruct{StringTokenType::CONTENT, std::string("content ouside!")}};
+    std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
+    REQUIRE(result.size() == output.size());
+    output = myXMLParser.returnTokenizedInput();
+    REQUIRE(result.size() == output.size());
+    for (int i = 0; i < result.size(); i++) {
+        REQUIRE(result[i].tokenType == output[i].tokenType);
+        REQUIRE(result[i].tokenString.compare(output[i].tokenString) == 0);
+    }
+
+    success = myXMLParser.parseTokenizedInput();
+    REQUIRE_FALSE(success);
+}
+
+TEST_CASE("Test XMLParser parseTokenizedInput fail - non matching tag names", "[XMLParser]") {
+    INFO("Hint: tokenize single element test of XMLParse");
+    // Create an instance of XMLParse
+    XMLParser myXMLParser;
+    string testString = "<bart>stuff<this_is_empty_tag/></test>";
+    bool success;
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE(success);
+    std::vector<TokenStruct> result = {TokenStruct{StringTokenType::START_TAG, std::string("bart")},
+                                       TokenStruct{StringTokenType::CONTENT, std::string("stuff")},
+                                       TokenStruct{StringTokenType::EMPTY_TAG, std::string("this_is_empty_tag")},
+                                       TokenStruct{StringTokenType::END_TAG, std::string("test")}};
+    std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
+    REQUIRE(result.size() == output.size());
+    output = myXMLParser.returnTokenizedInput();
+    REQUIRE(result.size() == output.size());
+    for (int i = 0; i < result.size(); i++) {
+        REQUIRE(result[i].tokenType == output[i].tokenType);
+        REQUIRE(result[i].tokenString.compare(output[i].tokenString) == 0);
+    }
+
+    success = myXMLParser.parseTokenizedInput();
+    REQUIRE_FALSE(success);
+}
+
 TEST_CASE("Test XMLParser Final Handout-0", "[XMLParser]") {
     INFO("Hint: TestFile");
     // Create an instance of XMLParse
     XMLParser myXMLParser;
-    ifstream myfile("./TestFile.txt");
+    ifstream myfile("../TestFile.txt");
     std::string inputString((std::istreambuf_iterator<char>(myfile)), (std::istreambuf_iterator<char>()));
 
     bool success;
