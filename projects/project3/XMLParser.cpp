@@ -9,13 +9,12 @@
 
 #include <string>
 
-// TODO: Implement the constructor here
 XMLParser::XMLParser() {
 }  // end default constructor
 
-// TODO: Implement the destructor here
 XMLParser::~XMLParser() {
-}  // end destructor
+    clear();
+}  // end deconstructor
 
 // TODO: Implement the tokenizeInputString method
 bool XMLParser::tokenizeInputString(const std::string &inputString) {
@@ -27,20 +26,20 @@ bool XMLParser::parseTokenizedInput() {
     return false;
 }
 
-// TODO: Implement the clear method here
 void XMLParser::clear() {
+    elementNameBag.clear();
+    parseStack.clear();
+    tokenizedInputVector.clear();
 }
 
 vector<TokenStruct> XMLParser::returnTokenizedInput() const {
     return tokenizedInputVector;
 }
 
-// TODO: Implement the containsElementName method
 bool XMLParser::containsElementName(const std::string &inputString) const {
-    return false;
+    return elementNameBag.contains(inputString);
 }
 
-// TODO: Implement the frequencyElementName method
 int XMLParser::frequencyElementName(const std::string &inputString) const {
-    return -1;
+    return elementNameBag.getFrequencyOf(inputString);
 }
