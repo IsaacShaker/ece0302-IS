@@ -233,7 +233,6 @@ bool XMLParser::tokenizeInputString(const std::string &inputString) {
     return true;
 }  // end
 
-// TODO: Implement the parseTokenizedInput method here
 bool XMLParser::parseTokenizedInput() {
     // check if tokenizaton was successful
     if (tokenizedInputVector.empty()) {
