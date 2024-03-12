@@ -288,7 +288,6 @@ TEST_CASE("Test XMLParser parseTokenizedInput Handout-0", "[XMLParser]") {
 }
 
 TEST_CASE("Test XMLParser parseTokenizedInput fail - content outside of element leading", "[XMLParser]") {
-    INFO("Hint: tokenize single element test of XMLParse");
     // Create an instance of XMLParse
     XMLParser myXMLParser;
     string testString = "content ouside!<test myattr='abcdef'>stuff<this_is_empty_tag/></test>";
@@ -314,7 +313,6 @@ TEST_CASE("Test XMLParser parseTokenizedInput fail - content outside of element 
 }
 
 TEST_CASE("Test XMLParser parseTokenizedInput fail - content outside of element trailing", "[XMLParser]") {
-    INFO("Hint: tokenize single element test of XMLParse");
     // Create an instance of XMLParse
     XMLParser myXMLParser;
     string testString = "<test myattr='abcdef'>stuff<this_is_empty_tag/></test> content ouside!";
@@ -340,7 +338,6 @@ TEST_CASE("Test XMLParser parseTokenizedInput fail - content outside of element 
 }
 
 TEST_CASE("Test XMLParser parseTokenizedInput fail - non matching tag names", "[XMLParser]") {
-    INFO("Hint: tokenize single element test of XMLParse");
     // Create an instance of XMLParse
     XMLParser myXMLParser;
     string testString = "<bart>stuff<this_is_empty_tag/></test>";
@@ -351,6 +348,101 @@ TEST_CASE("Test XMLParser parseTokenizedInput fail - non matching tag names", "[
                                        TokenStruct{StringTokenType::CONTENT, std::string("stuff")},
                                        TokenStruct{StringTokenType::EMPTY_TAG, std::string("this_is_empty_tag")},
                                        TokenStruct{StringTokenType::END_TAG, std::string("test")}};
+    std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
+    REQUIRE(result.size() == output.size());
+    output = myXMLParser.returnTokenizedInput();
+    REQUIRE(result.size() == output.size());
+    for (int i = 0; i < result.size(); i++) {
+        REQUIRE(result[i].tokenType == output[i].tokenType);
+        REQUIRE(result[i].tokenString.compare(output[i].tokenString) == 0);
+    }
+
+    success = myXMLParser.parseTokenizedInput();
+    REQUIRE_FALSE(success);
+}
+
+TEST_CASE("Test XMLParser parseTokenizedInput fail - file doesn't start with tag", "[XMLParser]") {
+    // Create an instance of XMLParse
+    XMLParser myXMLParser;
+    string testString = "stuff<this_is_empty_tag/></test>";
+    bool success;
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE(success);
+    std::vector<TokenStruct> result = {TokenStruct{StringTokenType::CONTENT, std::string("stuff")},
+                                       TokenStruct{StringTokenType::EMPTY_TAG, std::string("this_is_empty_tag")},
+                                       TokenStruct{StringTokenType::END_TAG, std::string("test")}};
+    std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
+    REQUIRE(result.size() == output.size());
+    output = myXMLParser.returnTokenizedInput();
+    REQUIRE(result.size() == output.size());
+    for (int i = 0; i < result.size(); i++) {
+        REQUIRE(result[i].tokenType == output[i].tokenType);
+        REQUIRE(result[i].tokenString.compare(output[i].tokenString) == 0);
+    }
+
+    success = myXMLParser.parseTokenizedInput();
+    REQUIRE_FALSE(success);
+}
+
+TEST_CASE("Test XMLParser parseTokenizedInput fail - file doesn't end with tag", "[XMLParser]") {
+    // Create an instance of XMLParse
+    XMLParser myXMLParser;
+    string testString = "<test><this_is_empty_tag/>";
+    bool success;
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE(success);
+    std::vector<TokenStruct> result = {TokenStruct{StringTokenType::START_TAG, std::string("test")},
+                                       TokenStruct{StringTokenType::EMPTY_TAG, std::string("this_is_empty_tag")}};
+    std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
+    REQUIRE(result.size() == output.size());
+    output = myXMLParser.returnTokenizedInput();
+    REQUIRE(result.size() == output.size());
+    for (int i = 0; i < result.size(); i++) {
+        REQUIRE(result[i].tokenType == output[i].tokenType);
+        REQUIRE(result[i].tokenString.compare(output[i].tokenString) == 0);
+    }
+
+    success = myXMLParser.parseTokenizedInput();
+    REQUIRE_FALSE(success);
+}
+
+TEST_CASE("Test XMLParser parseTokenizedInput fail - declaration inside", "[XMLParser]") {
+    // Create an instance of XMLParse
+    XMLParser myXMLParser;
+    string testString = "<test>stuff<?this_is_empty_tag?></test>";
+    bool success;
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE(success);
+    std::vector<TokenStruct> result = {TokenStruct{StringTokenType::START_TAG, std::string("test")},
+                                       TokenStruct{StringTokenType::CONTENT, std::string("stuff")},
+                                       TokenStruct{StringTokenType::DECLARATION, std::string("this_is_empty_tag")},
+                                       TokenStruct{StringTokenType::END_TAG, std::string("test")}};
+    std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
+    REQUIRE(result.size() == output.size());
+    output = myXMLParser.returnTokenizedInput();
+    REQUIRE(result.size() == output.size());
+    for (int i = 0; i < result.size(); i++) {
+        REQUIRE(result[i].tokenType == output[i].tokenType);
+        REQUIRE(result[i].tokenString.compare(output[i].tokenString) == 0);
+    }
+
+    success = myXMLParser.parseTokenizedInput();
+    REQUIRE_FALSE(success);
+}
+
+TEST_CASE("Test XMLParser parseTokenizedInput fail - muliple root elements", "[XMLParser]") {
+    // Create an instance of XMLParse
+    XMLParser myXMLParser;
+    string testString = "<test>stuff</test><test2>more stuff</test2>";
+    bool success;
+    success = myXMLParser.tokenizeInputString(testString);
+    REQUIRE(success);
+    std::vector<TokenStruct> result = {TokenStruct{StringTokenType::START_TAG, std::string("test")},
+                                       TokenStruct{StringTokenType::CONTENT, std::string("stuff")},
+                                       TokenStruct{StringTokenType::END_TAG, std::string("test")},
+                                       TokenStruct{StringTokenType::START_TAG, std::string("test2")},
+                                       TokenStruct{StringTokenType::CONTENT, std::string("more stuff")},
+                                       TokenStruct{StringTokenType::END_TAG, std::string("test2")}};
     std::vector<TokenStruct> output = myXMLParser.returnTokenizedInput();
     REQUIRE(result.size() == output.size());
     output = myXMLParser.returnTokenizedInput();
