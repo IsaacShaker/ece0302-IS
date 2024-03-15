@@ -50,7 +50,7 @@ TEST_CASE("Testing insert", "[sorted linked list]") {
     }
 }
 
-TEST_CASE("Testing remove", "[sorted linked list]") {
+TEST_CASE("Testing removeAt", "[sorted linked list]") {
     ListType lst;
 
     char c = 'a';
@@ -75,6 +75,20 @@ TEST_CASE("Testing remove", "[sorted linked list]") {
     lst.removeAt(22);
     REQUIRE(lst.getLength() == 22);
     REQUIRE(lst.getEntry(21) == 'y');
+}
+
+TEST_CASE("Testing remove", "[sorted linked list]") {
+    ListType lst;
+
+    char c = 'a';
+    while (c <= 'z') {
+        lst.insert(c);
+        ++c;
+    }
+    REQUIRE(lst.getLength() == 26);
+
+    lst.remove('a');
+    REQUIRE(lst.getEntry(0) == 'b');
 }
 
 TEST_CASE("Testing clear", "[sorted linked list]") {
