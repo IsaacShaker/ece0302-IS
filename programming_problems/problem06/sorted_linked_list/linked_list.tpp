@@ -91,7 +91,6 @@ void LinkedList<T>::remove(std::size_t position) {
     }
     delete curPtr;
     itemCount--;
-    return true;
 }  // end remove;
 
 template <typename T>

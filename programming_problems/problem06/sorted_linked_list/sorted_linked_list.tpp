@@ -8,7 +8,9 @@ SortedLinkedList<T>::SortedLinkedList() : LinkedList<T>() {
 
 template <typename T>
 SortedLinkedList<T>::SortedLinkedList(LinkedList<T> unsorted_list) {
-    // TODO
+    for (int i = 0; i < unsorted_list.getLength(); i++) {
+        insert(unsorted_list.getEntry(i));
+    }
 }
 
 template <typename T>
@@ -38,21 +40,32 @@ std::size_t SortedLinkedList<T>::getLength() const noexcept {
 
 template <typename T>
 void SortedLinkedList<T>::insert(const T& item) {
-    // TODO
+    int i = 0;
+    while ((i < LinkedList<T>::getLength()) && (item >= getEntry(i))) {
+        i++;
+    }
+
+    LinkedList<T>::insert(i, item);
 }
 
 template <typename T>
 void SortedLinkedList<T>::remove(const T& item) {
     if (isEmpty()) throw std::range_error("empty list in remove");
+    long int position = getPosition(item);
 
-    // TODO
+    if (position == -1) {
+        // item not in the list
+        return;
+    }
+
+    removeAt(position);
 }
 
 template <typename T>
 void SortedLinkedList<T>::removeAt(std::size_t position) {
     if (isEmpty()) throw std::range_error("empty list in remove");
 
-    // TODO
+    LinkedList<T>::remove(position);
 }
 
 template <typename T>
@@ -67,6 +80,11 @@ T SortedLinkedList<T>::getEntry(std::size_t position) const {
 
 template <typename T>
 long int SortedLinkedList<T>::getPosition(const T& item) {
-    // TODO
-    return 0;
+    long int i = 0;
+    for (i = 0; i < LinkedList<T>::getLength(); i++) {
+        if (item == getEntry(i)) {
+            return i;
+        }
+    }
+    return -1;
 }
