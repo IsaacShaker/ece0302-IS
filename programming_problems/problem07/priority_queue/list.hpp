@@ -4,50 +4,46 @@
 #include "abstract_list.hpp"
 
 template <typename T>
-class List: public AbstractList<T>
-{
-public:
-  
-  // default constructor
-  List();
-  
-  // copy constructor
-  List(const List& x);
-    
-  // destructor
-  ~List();
-  
-  // copy assignment
-  List& operator=(List x);
+class List : public AbstractList<T> {
+   public:
+    // default constructor
+    List();
 
-  // swap
-  void swap(List& x);
-  
-  // determine if a list is empty
-  bool isEmpty() const noexcept;
+    // copy constructor
+    List(const List& x);
 
-  // return current length of the list
-  std::size_t getLength() const noexcept;
+    // destructor
+    ~List();
 
-  // insert item at position in the list 
-  void insert(std::size_t position, const T& item);
+    // copy assignment
+    List& operator=(List x);
 
-  // remove item at position in the list 
-  void remove(std::size_t position);
+    // swap
+    void swap(List& x);
 
-  // remove all items from the list
-  void clear();
+    // determine if a list is empty
+    bool isEmpty() const noexcept;
 
-  // get a copy of the item at position 
-  T getEntry(std::size_t position) const;
+    // return current length of the list
+    std::size_t getLength() const noexcept;
 
-  // set the value of the item at position 
-  void setEntry(std::size_t position, const T& newValue);
+    // insert item at position in the list
+    void insert(std::size_t position, const T& item);
 
-private:
+    // remove item at position in the list
+    void remove(std::size_t position);
 
-  //TODO
-  
+    // remove all items from the list
+    void clear();
+
+    // get a copy of the item at position
+    T getEntry(std::size_t position) const;
+
+    // set the value of the item at position
+    void setEntry(std::size_t position, const T& newValue);
+
+   private:
+    // TODO
 };
 
 #include "list.tpp"
