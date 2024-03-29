@@ -73,7 +73,7 @@ template <typename T, typename L>
 long int SortedList<T, L>::getPosition(const T& newValue) {
     long int i = 0;
     for (i = 0; i < getLength(); i++) {
-        if (item == getEntry(i)) {
+        if (newValue == getEntry(i)) {
             return i;
         }
     }

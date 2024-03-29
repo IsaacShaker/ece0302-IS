@@ -5,42 +5,39 @@
 #include "abstract_queue.hpp"
 
 template <typename T, typename L>
-class Queue: public AbstractQueue<T>
-{
-public:
+class Queue : public AbstractQueue<T> {
+   public:
+    // default constructor
+    // not needed, default is ok
 
-  // default constructor
-  // not needed, default is ok
-  
-  // copy constructor
-  // not needed, default is ok
-  
-  // destructor
-  // not needed, default is ok
-  
-  // copy assignment
-  // not needed, default is ok
+    // copy constructor
+    // not needed, default is ok
 
-  // return true is the queue is empty
-  bool isEmpty() const;
+    // destructor
+    // not needed, default is ok
 
-  // enqueue (add) newEntry into the queue back
-  void enqueue(const T& item);
+    // copy assignment
+    // not needed, default is ok
 
-  // dequeue (remove) newEntry from the queue front
-  // throw exception if not possible
-  void dequeue();
+    // return true is the queue is empty
+    bool isEmpty() const;
 
-  // return a copy of the item at the front of the queue
-  // throw exception if not possible
-  T peekFront();
+    // enqueue (add) newEntry into the queue back
+    void enqueue(const T& item);
 
-private:
+    // dequeue (remove) newEntry from the queue front
+    // throw exception if not possible
+    void dequeue();
 
-  // L must conform to AbstractList interface
-  L internal_list;
+    // return a copy of the item at the front of the queue
+    // throw exception if not possible
+    T peekFront();
+
+   private:
+    // L must conform to AbstractList interface
+    L internal_list;
 };
 
 #include "queue.tpp"
 
-#endif 
+#endif

@@ -5,11 +5,49 @@
 #include "priority_queue.hpp"
 #include "sorted_list.hpp"
 
-TEST_CASE("Testing Priority Queue", "[priority queue]") {
-    typedef SortedList<int, List<int>> SortedListType;
-    typedef PriorityQueue<int, SortedListType> PriorityQueueType;
+typedef SortedList<int, List<int>> SortedListType;
+typedef PriorityQueue<int, SortedListType> PriorityQueueType;
 
+TEST_CASE("Testing isEmpty", "[priority queue]") {
+    PriorityQueueType pq;
+    REQUIRE(pq.isEmpty());
+
+    pq.add('a');
+    REQUIRE_FALSE(pq.isEmpty());
+
+    pq.remove();
+    REQUIRE(pq.isEmpty());
+}
+
+TEST_CASE("Testing remove", "[priority queue]") {
     PriorityQueueType pq;
 
-    // TODO
+    pq.add(4);
+
+    pq.remove();
+
+    REQUIRE(pq.isEmpty());
+}
+
+TEST_CASE("Testing peek", "[priority queue]") {
+    PriorityQueueType pq;
+
+    pq.add(4);
+
+    REQUIRE(pq.peek() == 4);
+}
+
+TEST_CASE("Testing add", "[priority queue]") {
+    PriorityQueueType pq;
+
+    int i = 25;
+    while (i >= 0) {
+        pq.add(i);
+        --i;
+    }
+
+    for (int i = 0; i < 26; ++i) {
+        REQUIRE(pq.peek() == i);
+        pq.remove();
+    }
 }
