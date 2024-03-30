@@ -40,13 +40,11 @@ TEST_CASE("Testing peek", "[priority queue]") {
 TEST_CASE("Testing add", "[priority queue]") {
     PriorityQueueType pq;
 
-    int i = 25;
-    while (i >= 0) {
+    for (int i = 0; i < 26; i++) {
         pq.add(i);
-        --i;
     }
 
-    for (int i = 0; i < 26; ++i) {
+    for (int i = 25; i >= 0; i--) {
         REQUIRE(pq.peek() == i);
         pq.remove();
     }
