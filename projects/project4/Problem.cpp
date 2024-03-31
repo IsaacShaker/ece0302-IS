@@ -18,7 +18,7 @@ Problem::Problem(std::string input_file) {
     findGoals();
 }
 
-Problem::Problem(Image<Pixel> &newImage) {
+Problem::Problem(Image<Pixel> newImage) {
     image = newImage;
     findInitial();
     findGoals();
@@ -37,22 +37,22 @@ bool Problem::goal(s state) {
 std::vector<s> Problem::actions(s state) {
     std::vector<s> nextStates;
 
-    s prevRow = {state.r - 1, state.c};
-    s nextRow = {state.r + 1, state.c};
-    s prevCol = {state.r, state.c - 1};
-    s nextCol = {state.r, state.c + 1};
+    s prevRow = {state.first - 1, state.second};
+    s nextRow = {state.first + 1, state.second};
+    s prevCol = {state.first, state.second - 1};
+    s nextCol = {state.first, state.second + 1};
 
     // add the state if it can be explored (white pixel)
-    if (image(prevRow.r, prevRow.c) == WHITE) {
+    if (image(prevRow.first, prevRow.second) == WHITE) {
         nextStates.push_back(prevRow);
     }
-    if (image(nextRow.r, nextRow.c) == WHITE) {
+    if (image(nextRow.first, nextRow.second) == WHITE) {
         nextStates.push_back(nextRow);
     }
-    if (image(prevCol.r, prevCol.c) == WHITE) {
+    if (image(prevCol.first, prevCol.second) == WHITE) {
         nextStates.push_back(prevCol);
     }
-    if (image(nextCol.r, nextCol.c) == WHITE) {
+    if (image(nextCol.first, nextCol.second) == WHITE) {
         nextStates.push_back(nextCol);
     }
 
@@ -72,8 +72,7 @@ void Problem::findInitial() {
         }
     }
     // if it didn't find it
-    initState = {NULL,
-                 NULL};
+    initState = {0, 0};
 }
 
 void Problem::findGoals() {

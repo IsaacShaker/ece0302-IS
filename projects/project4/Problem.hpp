@@ -7,22 +7,19 @@
 
 #include "lib/image.h"
 
-typedef struct {
-    std::size_t r;
-    std::size_t c;
-} s;
+typedef std::pair<std::size_t, std::size_t> s;
 
 class Problem {
    public:
     // constructor - load image from file
     Problem(std::string input_file);
     // constructor - load from existing image data structure
-    Problem(Image<Pixel> &newImage);
+    Problem(Image<Pixel> newImage);
 
     // returns the
     s initial();
     bool goal(s currState);
-    std::vector<s> actions(s);
+    std::vector<s> actions(s state);
 
    private:
     Image<Pixel> image;
@@ -33,6 +30,6 @@ class Problem {
     void findGoals();
 };
 
-#include "Problem.cpp"
+// #include "Problem.cpp"
 
 #endif
