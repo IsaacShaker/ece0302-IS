@@ -1,8 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #define CATCH_CONFIG_COLOUR_NONE
-#include "catch.hpp"
-
 #include "binary_search_tree.hpp"
+#include "catch.hpp"
 
 typedef BinarySearchTree<int, int> TreeType;
 
@@ -21,7 +20,7 @@ TEST_CASE("Test Insert", "[insert]") {
 
 TEST_CASE("Test Duplicate Insert", "[duplicate insert]") {
     TreeType bst1;
-    
+
     bst1.insert(12, 12);
     REQUIRE(!bst1.insert(12, 12));
 }
@@ -93,6 +92,4 @@ TEST_CASE("Test Copy Assign", "[copy assign]") {
     REQUIRE(bst2.retrieve(50, item));
     REQUIRE(bst2.retrieve(25, item));
     REQUIRE(!bst2.retrieve(51, item));
-    
 }
-

@@ -2,14 +2,13 @@
 #ifndef _BINARY_SEARCH_TREE_H_
 #define _BINARY_SEARCH_TREE_H_
 
-#include <stack>
 #include <cassert>
 #include <cstdlib>
+#include <stack>
 
 template <typename KeyType, typename ItemType>
-class BinarySearchTree
-{
-public:
+class BinarySearchTree {
+   public:
     BinarySearchTree();
     BinarySearchTree(const BinarySearchTree& rhs);
     BinarySearchTree& operator=(BinarySearchTree rhs);
@@ -23,7 +22,7 @@ public:
     void destroy();
     void treeSort(KeyType arr[], int size);
 
-private:
+   private:
     template <typename K, typename I>
     struct Node {
         I data;
@@ -40,13 +39,13 @@ private:
 
     Node<KeyType, ItemType>* root;
 
-     void inorder(Node<KeyType, ItemType>* curr, Node<KeyType, ItemType>*& in,
-        Node<KeyType, ItemType>*& parent);
+    void inorder(Node<KeyType, ItemType>* curr, Node<KeyType, ItemType>*& in,
+                 Node<KeyType, ItemType>*& parent);
 
     void search(KeyType key, Node<KeyType, ItemType>*& curr,
-        Node<KeyType, ItemType>*& parent);
+                Node<KeyType, ItemType>*& parent);
 };
 
 #include "binary_search_tree.tpp"
 
-#endif // _BINARY_SEARCH_TREE_H_
+#endif  // _BINARY_SEARCH_TREE_H_

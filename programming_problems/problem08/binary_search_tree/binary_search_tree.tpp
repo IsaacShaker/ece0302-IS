@@ -1,15 +1,13 @@
 #include "binary_search_tree.hpp"
 
 template <typename KeyType, typename ItemType>
-BinarySearchTree<KeyType, ItemType>::BinarySearchTree()
-{
+BinarySearchTree<KeyType, ItemType>::BinarySearchTree() {
     root = 0;
 }
 
 template <typename KeyType, typename ItemType>
 BinarySearchTree<KeyType, ItemType>::BinarySearchTree(
-    const BinarySearchTree<KeyType, ItemType>& rhs)
-{
+    const BinarySearchTree<KeyType, ItemType>& rhs) {
     root = 0;
     Node<KeyType, ItemType>** lhs = &root;
 
@@ -50,31 +48,25 @@ BinarySearchTree<KeyType, ItemType>::BinarySearchTree(
     }
 }
 
-
 template <typename KeyType, typename ItemType>
 BinarySearchTree<KeyType, ItemType>& BinarySearchTree<KeyType, ItemType>::
-operator=(BinarySearchTree<KeyType, ItemType> rhs)
-{
+operator=(BinarySearchTree<KeyType, ItemType> rhs) {
     swap(rhs);
     return *this;
 }
 
 template <typename KeyType, typename ItemType>
-void BinarySearchTree<KeyType, ItemType>::swap(BinarySearchTree<KeyType, ItemType>& rhs)
-{
+void BinarySearchTree<KeyType, ItemType>::swap(BinarySearchTree<KeyType, ItemType>& rhs) {
     std::swap(root, rhs.root);
 }
 
 template <typename KeyType, typename ItemType>
-BinarySearchTree<KeyType, ItemType>::~BinarySearchTree()
-{
+BinarySearchTree<KeyType, ItemType>::~BinarySearchTree() {
     destroy();
 }
 
-
 template <typename KeyType, typename ItemType>
-void BinarySearchTree<KeyType, ItemType>::destroy()
-{
+void BinarySearchTree<KeyType, ItemType>::destroy() {
     std::stack<Node<KeyType, ItemType>*> s;
     s.push(root);
 
@@ -93,22 +85,19 @@ void BinarySearchTree<KeyType, ItemType>::destroy()
 
 template <typename KeyType, typename ItemType>
 bool BinarySearchTree<KeyType, ItemType>::insert(
-    const KeyType& key, const ItemType& item)
-{
-    // TODO 
+    const KeyType& key, const ItemType& item) {
+    // TODO
     return false;
 }
 
 template <typename KeyType, typename ItemType>
-bool BinarySearchTree<KeyType, ItemType>::isEmpty()
-{
+bool BinarySearchTree<KeyType, ItemType>::isEmpty() {
     return (root == 0);
 }
 
 template <typename KeyType, typename ItemType>
 bool BinarySearchTree<KeyType, ItemType>::retrieve(
-    const KeyType& key, ItemType& item)
-{
+    const KeyType& key, ItemType& item) {
     Node<KeyType, ItemType>* curr;
     Node<KeyType, ItemType>* curr_parent;
     search(key, curr, curr_parent);
@@ -125,13 +114,11 @@ bool BinarySearchTree<KeyType, ItemType>::retrieve(
 }
 
 template <typename KeyType, typename ItemType>
-bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
-{
+bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key) {
     if (isEmpty())
-        return false; // empty tree
+        return false;  // empty tree
 
     // TODO
-
 
     // case one thing in the tree
 
@@ -143,21 +130,18 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
 
     // case, item to delete has two children
 
-    return false; 
+    return false;
 }
 
 template <typename KeyType, typename ItemType>
 void BinarySearchTree<KeyType, ItemType>::inorder(Node<KeyType, ItemType>* curr,
-    Node<KeyType, ItemType>*& in, Node<KeyType, ItemType>*& parent)
-{
+                                                  Node<KeyType, ItemType>*& in, Node<KeyType, ItemType>*& parent) {
     // TODO: find inorder successor of "curr" and assign to "in"
-
 }
 
 template <typename KeyType, typename ItemType>
 void BinarySearchTree<KeyType, ItemType>::search(KeyType key,
-    Node<KeyType, ItemType>*& curr, Node<KeyType, ItemType>*& parent)
-{
+                                                 Node<KeyType, ItemType>*& curr, Node<KeyType, ItemType>*& parent) {
     curr = root;
     parent = 0;
 
@@ -183,7 +167,7 @@ void BinarySearchTree<KeyType, ItemType>::search(KeyType key,
     }
 }
 
-template<typename KeyType, typename ItemType>
+template <typename KeyType, typename ItemType>
 void BinarySearchTree<KeyType, ItemType>::treeSort(KeyType arr[], int size) {
     // TODO: check for duplicate items in the input array
 
