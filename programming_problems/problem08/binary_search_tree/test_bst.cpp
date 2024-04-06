@@ -36,10 +36,15 @@ TEST_CASE("Test Retrieve", "[retrieve]") {
 
     int item;
     REQUIRE(bst1.retrieve(18, item));
+    REQUIRE(item == 18);
     REQUIRE(bst1.retrieve(12, item));
+    REQUIRE(item == 12);
     REQUIRE(bst1.retrieve(15, item));
+    REQUIRE(item == 15);
     REQUIRE(bst1.retrieve(5, item));
+    REQUIRE(item == 5);
     REQUIRE(bst1.retrieve(10, item));
+    REQUIRE(item == 10);
 }
 
 TEST_CASE("Test Remove", "[remove]") {

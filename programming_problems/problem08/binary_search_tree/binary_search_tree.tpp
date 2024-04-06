@@ -86,8 +86,33 @@ void BinarySearchTree<KeyType, ItemType>::destroy() {
 template <typename KeyType, typename ItemType>
 bool BinarySearchTree<KeyType, ItemType>::insert(
     const KeyType& key, const ItemType& item) {
-    // TODO
-    return false;
+    Node<KeyType, ItemType>* newNode = new Node<KeyType, ItemType>;
+    newNode->key = key;
+    newNode->data = item;
+
+    if (isEmpty()) {
+        root = newNode;
+        return true;
+    }
+
+    Node<KeyType, ItemType>* curr;
+    Node<KeyType, ItemType>* curr_parent;
+    search(key, curr, curr_parent);
+
+    // 2 possibilities
+    // 1.) already exists (don't add because duplicate)
+    if (key == curr->key) {
+        delete newNode;
+        return false;
+    }
+    // 2.) one of curr's leaves is null ptr and that is where it will be inserted
+    if (key < curr->key) {
+        curr->left = newNode;
+    } else {
+        curr->right = newNode;
+    }
+
+    return true;
 }
 
 template <typename KeyType, typename ItemType>
@@ -102,9 +127,11 @@ bool BinarySearchTree<KeyType, ItemType>::retrieve(
     Node<KeyType, ItemType>* curr_parent;
     search(key, curr, curr_parent);
 
+    // if curr is nullptr // empty tree
     if (curr == 0)
         return false;
 
+    // if search was successful
     if (curr->key == key) {
         item = curr->data;
         return true;
@@ -118,27 +145,88 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key) {
     if (isEmpty())
         return false;  // empty tree
 
-    // TODO
+    Node<KeyType, ItemType>* curr;
+    Node<KeyType, ItemType>* curr_parent;
+    search(key, curr, curr_parent);
 
-    // case one thing in the tree
+    // key not found
+    if (curr->key != key) {
+        return false;
+    }
 
     // case, found deleted item at leaf
-
-    // case, item to delete has only a right child
-
+    if (curr->left == 0 && curr->right == 0) {
+        if (curr == root) {
+            root = 0;
+        } else if (curr_parent->left == curr) {
+            curr_parent->left = 0;
+        } else {
+            curr_parent->right = 0;
+        }
+    }
     // case, item to delete has only a left child
-
+    else if (curr->right == 0) {
+        if (curr == root) {
+            root = curr->left;
+        } else if (curr_parent->left == curr) {
+            curr_parent->left = curr->left;
+        } else {
+            curr_parent->right = curr->left;
+        }
+    }
+    // case, item to delete has only a right child
+    else if (curr->left == 0) {
+        if (curr == root) {
+            root = curr->right;
+        } else if (curr_parent->left == curr) {
+            curr_parent->left = curr->right;
+        } else {
+            curr_parent->right = curr->right;
+        }
+    }
     // case, item to delete has two children
+    else {
+        Node<KeyType, ItemType>* in;
+        Node<KeyType, ItemType>* in_parent = curr;
+        inorder(curr->right, in, in_parent);
+        if (curr == in_parent) {
+            in->left = curr->left;
+        } else {
+            in_parent->left = in->right;
+            in->left = curr->left;
+            in->right = curr->right;
+        }
 
-    return false;
+        if (curr == root) {
+            root = in;
+        } else if (curr_parent->left == curr) {
+            curr_parent->left = in;
+        } else {
+            curr_parent->right = in;
+        }
+    }
+
+    delete curr;
+
+    return true;
 }
 
 template <typename KeyType, typename ItemType>
 void BinarySearchTree<KeyType, ItemType>::inorder(Node<KeyType, ItemType>* curr,
                                                   Node<KeyType, ItemType>*& in, Node<KeyType, ItemType>*& parent) {
-    // TODO: find inorder successor of "curr" and assign to "in"
+    // find inorder successor of "curr" and assign to "in"
+    while (true) {
+        if (curr->left != 0) {
+            parent = curr;
+            curr = curr->left;
+        } else
+            break;
+    }
+
+    in = curr;
 }
 
+// will give the pointer of where key node is or will give the leaves where it should be (curr left or right)
 template <typename KeyType, typename ItemType>
 void BinarySearchTree<KeyType, ItemType>::search(KeyType key,
                                                  Node<KeyType, ItemType>*& curr, Node<KeyType, ItemType>*& parent) {
