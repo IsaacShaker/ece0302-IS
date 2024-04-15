@@ -4,26 +4,23 @@
 #include "abstract_graph.hpp"
 
 template <typename LabelType>
-class AdjacencyListGraph: public AbstractGraph<LabelType>
-{
-    public:
+class AdjacencyListGraph : public AbstractGraph<LabelType> {
+   public:
+    AdjacencyListGraph();
 
-        AdjacencyListGraph();
-        
-        int getNumVertices() const;
-        
-        int getNumEdges() const;
+    int getNumVertices() const;
 
-        bool add(LabelType start, LabelType end);
+    int getNumEdges() const;
 
-        bool remove(LabelType start, LabelType end);
+    bool add(LabelType start, LabelType end);
 
-        void depthFirstTraversal(LabelType start, void visit(LabelType&));
+    bool remove(LabelType start, LabelType end);
 
-        void breadthFirstTraversal(LabelType start, void visit(LabelType&));
-  
+    void depthFirstTraversal(LabelType start, void visit(LabelType&));
+
+    void breadthFirstTraversal(LabelType start, void visit(LabelType&));
 };
 
 #include "adjacency_list_graph.tpp"
 
-#endif 
+#endif
