@@ -4,46 +4,35 @@
 
 template <typename T>
 State<T> frontier_queue<T>::pop() {
+    // TODO
 
-  //TODO
-  
-  //implement this the same way we implemented pop in the heap lecture. Compare using getFCost
+    // implement this the same way we implemented pop in the heap lecture. Compare using getFCost
 
-  // needs return statement
-
+    // needs return statement
 }
 
 template <typename T>
 void frontier_queue<T>::push(const T &p, std::size_t cost, std::size_t heur) {
+    // TODO
 
-  //TODO
-  
-  //implement this the same way we implemented push in the heap lecture.
-
+    // implement this the same way we implemented push in the heap lecture.
 }
 
 template <typename T>
 bool frontier_queue<T>::empty() {
+    // TODO
 
-  //TODO
-
-  return true;
+    return true;
 }
 
-template <typename T> 
+template <typename T>
 bool frontier_queue<T>::contains(const T &p) {
+    // TODO
 
-  //TODO
-
-  return false;
-
+    return false;
 }
 
 template <typename T>
 void frontier_queue<T>::replaceif(const T &p, std::size_t cost) {
-
-  //TODO
-
+    // TODO
 }
-
-

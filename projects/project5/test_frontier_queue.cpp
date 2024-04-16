@@ -2,8 +2,7 @@
 #include "catch.hpp"
 #include "frontier_queue.hpp"
 
-TEST_CASE("Simple push test", "[frontier_queue]")
-{
+TEST_CASE("Simple push test", "[frontier_queue]") {
     frontier_queue<int> fq;
     REQUIRE(fq.empty());
 
@@ -13,8 +12,7 @@ TEST_CASE("Simple push test", "[frontier_queue]")
     REQUIRE(fq.contains(1));
 }
 
-TEST_CASE("Simple contains test", "[frontier_queue]")
-{
+TEST_CASE("Simple contains test", "[frontier_queue]") {
     frontier_queue<int> fq;
 
     REQUIRE_FALSE(fq.contains(1));
@@ -28,10 +26,9 @@ TEST_CASE("Simple contains test", "[frontier_queue]")
     REQUIRE_FALSE(fq.contains(3));
 }
 
-TEST_CASE("Simple pop test", "[frontier_queue]")
-{
+TEST_CASE("Simple pop test", "[frontier_queue]") {
     frontier_queue<int> fq;
-    
+
     fq.push(1, 1, 1);
 
     State<int> state = fq.pop();
@@ -41,8 +38,7 @@ TEST_CASE("Simple pop test", "[frontier_queue]")
     REQUIRE(fq.empty());
 }
 
-TEST_CASE("Simple replaceif test", "[frontier_queue]")
-{
+TEST_CASE("Simple replaceif test", "[frontier_queue]") {
     frontier_queue<int> fq;
 
     fq.push(1, 100, 100);
@@ -54,8 +50,7 @@ TEST_CASE("Simple replaceif test", "[frontier_queue]")
     REQUIRE(state.getFCost() == 101);
 }
 
-TEST_CASE("Thorough push/pop test", "[frontier_queue]")
-{
+TEST_CASE("Thorough push/pop test", "[frontier_queue]") {
     // Init random numbers
     int seed = rand() % 100;
     INFO("Seed = " << seed);
@@ -63,27 +58,23 @@ TEST_CASE("Thorough push/pop test", "[frontier_queue]")
 
     // Fill the frontier_queue with random entries
     frontier_queue<int> fq;
-    for (int i = 0; i < 5; i++)
-    {
+    for (int i = 0; i < 5; i++) {
         fq.push(rand() % 1000, i, i);
     }
 
     std::vector<State<int>> states;
-    while (!fq.empty())
-    {
+    while (!fq.empty()) {
         State<int> state = fq.pop();
         states.push_back(state);
     }
 
     // Require that pop gave us the highest priority every time
-    for (int i = 0; i < states.size() - 1; i++)
-    {
-        REQUIRE(states[i].getFCost() <= states[i+1].getFCost());
+    for (int i = 0; i < states.size() - 1; i++) {
+        REQUIRE(states[i].getFCost() <= states[i + 1].getFCost());
     }
 }
 
-TEST_CASE("Thorough replaceif test", "[frontier_queue]")
-{
+TEST_CASE("Thorough replaceif test", "[frontier_queue]") {
     frontier_queue<int> fq;
 
     // Try replaceif on empty queue
