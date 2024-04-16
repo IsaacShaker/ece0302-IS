@@ -23,6 +23,14 @@ bool AdjacencyMatrixGraph<LabelType>::add(LabelType start, LabelType end) {
             return false;
         }
     }
+    // after the inital two vertices are added, one of the labels must already be in the graph, otherwise the addition would create a disconnect
+    if (getNumVertices() >= 2 && label_to_index.count(start) == 0 && label_to_index.count(end) == 0) {
+        return false;
+    }
+    // self loop
+    if (start == end) {
+        return false;
+    }
 
     // check if label not in map, expand matrix to fit new vertices, or reuse old space from previously removed vertices
     if (label_to_index.count(start) == 0) {

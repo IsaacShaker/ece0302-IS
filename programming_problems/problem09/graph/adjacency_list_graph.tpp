@@ -17,6 +17,15 @@ int AdjacencyListGraph<LabelType>::getNumEdges() const {
 
 template <typename LabelType>
 bool AdjacencyListGraph<LabelType>::add(LabelType start, LabelType end) {
+    // after the inital two vertices are added, one of the labels must already be in the graph, otherwise the addition would create a disconnect
+    if (getNumVertices() >= 2 && adjacencyList.count(start) == 0 && adjacencyList.count(end) == 0) {
+        return false;
+    }
+    // self loop
+    if (start == end) {
+        return false;
+    }
+
     // if start is in the map
     if (adjacencyList.count(start) == 1) {
         // if an edge between start and end exists
@@ -39,11 +48,12 @@ bool AdjacencyListGraph<LabelType>::add(LabelType start, LabelType end) {
 
 template <typename LabelType>
 bool AdjacencyListGraph<LabelType>::remove(LabelType start, LabelType end) {
+    // check if edge exists
     if (adjacencyList.count(start) == 0 || adjacencyList[start].count(end) == 0) {
         return false;
     }
 
-    // if an edge between start and end exists
+    // remove edge from set
     adjacencyList[start].erase(end);
     adjacencyList[end].erase(start);
 
