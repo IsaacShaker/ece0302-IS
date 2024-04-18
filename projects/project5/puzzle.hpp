@@ -1,7 +1,8 @@
 #ifndef PUZZLE_HPP
 #define PUZZLE_HPP
 
-#include <csdtint>
+#include <stdint.h>
+
 #include <sstream>
 #include <string>
 #include <utility>

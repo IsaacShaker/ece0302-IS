@@ -35,7 +35,11 @@ class frontier_queue {
     void replaceif(const T &p, std::size_t cost);
 
    private:
+    // array based implementaion of min heap
     std::vector<State<T>> queue;
+    void heapRebuild(int nodeIndex);
+    void bubbleUp(int &nodeIndex);
+    bool isLeaf(int &nodeIndex) const;
 };
 
 #include "frontier_queue.tpp"
